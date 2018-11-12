@@ -2,6 +2,7 @@ import React from "react";
 import Enzyme, { shallow } from "enzyme";
 import EnzymeAdapter from "enzyme-adapter-react-16";
 import App from "./App";
+import { wrap } from "module";
 
 Enzyme.configure({ adapter: new EnzymeAdapter() });
 
@@ -86,4 +87,24 @@ test("clicking on the decrement button decrements the counter display", () => {
   // find display and test
   const counterDisplay = findByTestAttr(wrapper, "counter-display");
   expect(counterDisplay.text()).toContain(counter - 1);
+});
+
+test("if the counter is 0 the decrement button dont decrement", () => {
+  const wrapper = setup();
+  const decrementButton = findByTestAttr(wrapper, "decrement-button");
+  decrementButton.simulate("click");
+  wrapper.update();
+
+  const counterDisplay = findByTestAttr(wrapper, "counter-display");
+  expect(counterDisplay.text()).toContain(0);
+});
+
+test("if you try to decrement 0 you get a error message", () => {
+  const wrapper = setup();
+  const decrementButton = findByTestAttr(wrapper, "decrement-button");
+  decrementButton.simulate("click");
+  wrapper.update();
+
+  const errorMessage = findByTestAttr(wrapper, "error-message");
+  expect(errorMessage.text().length).toBeGreaterThan(0);
 });
