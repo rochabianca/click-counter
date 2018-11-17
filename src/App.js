@@ -8,7 +8,10 @@ class App extends Component {
     error: {}
   };
   incrementButton = () => {
-    const { counter } = this.state;
+    const { counter, error } = this.state;
+    if (error) {
+      this.setState({ error: "" });
+    }
     this.setState({ counter: counter + 1 });
   };
   decrementButton = () => {

@@ -108,3 +108,15 @@ test("if you try to decrement 0 you get a error message", () => {
   const errorMessage = findByTestAttr(wrapper, "error-message");
   expect(errorMessage.text().length).toBeGreaterThan(0);
 });
+
+test("if you increment after trying to decrement 0, the error message is cleared", () => {
+  const wrapper = setup();
+  const decrementButton = findByTestAttr(wrapper, "decrement-button");
+  const incrementButton = findByTestAttr(wrapper, "increment-button");
+  decrementButton.simulate("click");
+  incrementButton.simulate("click");
+  wrapper.update();
+
+  const errorMessage = findByTestAttr(wrapper, "error-message");
+  expect(errorMessage.text().length).toBe(0);
+});
